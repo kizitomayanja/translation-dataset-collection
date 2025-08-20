@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Translation Progress</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-xl mx-auto bg-white rounded-xl shadow p-6 text-center">
+    <h1 class="text-2xl font-bold mb-4">Translation Progress</h1>
+    <p class="mb-4">Completed: {{done}} / {{total}}</p>
+
+    <div class="w-full bg-gray-200 rounded-full h-6">
+      <div class="bg-green-500 h-6 rounded-full text-white text-sm flex items-center justify-center"
+           style="width: {{percent}}%;"> 
+        {{percent|round(1)}}%
+      </div>
+    </div>
+
+    <a href="{{ url_for('translate') }}" class="mt-6 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg shadow">
+      Start Translating
+    </a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Translate</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-2xl mx-auto bg-white rounded-xl shadow p-6">
+    <h1 class="text-xl font-bold mb-4">Translate Sentence</h1>
+
+    <form action="{{ url_for('submit') }}" method="post" class="space-y-4">
+      <input type="hidden" name="id" value="{{ sentence['id'] }}">
+
+      <p class="p-3 bg-green-200 rounded">The translated sentence is an attempt by AI. Validate the sentence and correct it where you feel it went wrong. Place a comment if something confused and rate your answer from 1 to 10 before submitting the form.</p>
+
+      <p class="p-3 bg-gray-200 rounded"><b>English Sentence: </b>{{ sentence['humanized_text'] }}</p>
+
+      <label for="translation" class="items-center justify-center w-full">Luganda Translation</label>
+      <textarea name="translation" placeholder="Enter Luganda translation"
+                class="w-full border rounded p-2">{{ sentence['Translation'] or '' }}</textarea>
+
+      <select name="student_validated" class="w-full border rounded p-2">
+        <option value="yes">Yes (translated)</option>
+        <option value="no">No (failed)</option>
+      </select>
+
+      <input type="number" name="confidence" min="1" max="10" placeholder="confidence (1-10)"
+             value="{{ sentence['confidence'] or '' }}" class="w-full border rounded p-2">
+
+      <textarea name="reason" placeholder="Comment"
+                class="w-full border rounded p-2">{{ sentence['reason'] or '' }}</textarea>
+
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Save & Next</button>
+    </form>
+  </div>
+</body>
+</html>
