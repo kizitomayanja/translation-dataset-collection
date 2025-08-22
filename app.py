@@ -1,21 +1,32 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-import sqlite3, random
+import psycopg2
+import psycopg2.extras
+import random
 
 app = Flask(__name__)
 
-DB_FILE = "translations.db"
+DB_PARAMS = {
+    "dbname": "translations",
+    "user": "kmayanja",
+    "password": "kmayanja",
+    "host": "localhost",
+    "port": "5432"
+}
 TABLE_NAME = "sentences"
 
 # --- DB Utility ---
 def get_db_connection():
-    conn = sqlite3.connect(DB_FILE)
-    conn.row_factory = sqlite3.Row
+    conn = psycopg2.connect(**DB_PARAMS)
     return conn
 
 def get_progress():
     conn = get_db_connection()
-    total = conn.execute(f"SELECT COUNT(*) FROM {TABLE_NAME}").fetchone()[0]
-    done = conn.execute(f"SELECT COUNT(*) FROM {TABLE_NAME} WHERE student_validated = 'yes'").fetchone()[0]
+    cur = conn.cursor()
+    cur.execute(f"SELECT COUNT(*) FROM {TABLE_NAME}")
+    total = cur.fetchone()[0]
+    cur.execute(f"SELECT COUNT(*) FROM {TABLE_NAME} WHERE student_validated = 'yes'")
+    done = cur.fetchone()[0]
+    cur.close()
     conn.close()
     return done, total
 
@@ -29,7 +40,10 @@ def index():
 @app.route("/translate")
 def translate():
     conn = get_db_connection()
-    rows = conn.execute(f"SELECT * FROM {TABLE_NAME} WHERE student_validated IS NULL OR student_validated = ''").fetchall()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cur.execute(f"SELECT * FROM {TABLE_NAME} WHERE student_validated IS NULL OR student_validated = ''")
+    rows = cur.fetchall()
+    cur.close()
     conn.close()
     if not rows:
         return render_template("finished.html")
@@ -45,12 +59,14 @@ def submit():
     reason = request.form["reason"]
 
     conn = get_db_connection()
-    conn.execute(f"""
+    cur = conn.cursor()
+    cur.execute(f"""
         UPDATE {TABLE_NAME}
-        SET Translation=?, student_validated=?, confidence=?, reason=?
-        WHERE id=?
+        SET translation=%s, student_validated=%s, confidence=%s, reason=%s
+        WHERE id=%s
     """, (translation, student_validated, confidence, reason, row_id))
     conn.commit()
+    cur.close()
     conn.close()
     return redirect(url_for("translate"))
 

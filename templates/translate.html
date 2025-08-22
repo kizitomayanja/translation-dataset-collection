@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Translate</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 p-6">
@@ -11,13 +12,15 @@
     <form action="{{ url_for('submit') }}" method="post" class="space-y-4">
       <input type="hidden" name="id" value="{{ sentence['id'] }}">
 
-      <p class="p-3 bg-green-200 rounded">The translated sentence is an attempt by AI. Validate the sentence and correct it where you feel it went wrong. Place a comment if something confused and rate your answer from 1 to 10 before submitting the form.</p>
+      <p class="p-3 bg-green-200 rounded">The translated sentence is an attempt by AI. Validate the sentence and correct it where you feel it went wrong. Place a comment if something confused you and rate your answer from 1 to 10 before submitting the form.
+        If you don't know how to translate the sentence, reload the page and you will be given a new one.
+      </p>
 
       <p class="p-3 bg-gray-200 rounded"><b>English Sentence: </b>{{ sentence['humanized_text'] }}</p>
 
       <label for="translation" class="items-center justify-center w-full">Luganda Translation</label>
       <textarea name="translation" placeholder="Enter Luganda translation"
-                class="w-full border rounded p-2">{{ sentence['Translation'] or '' }}</textarea>
+                class="w-full border rounded p-2">{{ sentence['translation'] or '' }}</textarea>
 
       <select name="student_validated" class="w-full border rounded p-2">
         <option value="yes">Yes (translated)</option>
