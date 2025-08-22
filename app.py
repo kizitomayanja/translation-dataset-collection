@@ -70,6 +70,12 @@ def submit():
     conn.close()
     return redirect(url_for("translate"))
 
+# app.add_url_rule(
+#     "/favicon.ico",
+#     endpoint="favicon",
+#     redirect_to=url_for("static", filename="favicon.ico"),
+# )
+
 if __name__ == "__main__":
     # Run on LAN (use host='0.0.0.0')
     app.run(debug=True, host="0.0.0.0", port=5000)
