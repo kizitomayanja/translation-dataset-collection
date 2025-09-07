@@ -14,7 +14,7 @@ try:
     pg_conn = psycopg2.connect(
         dbname="translations",
         user="kmayanja",
-        password="kmayanja",
+        # password="kmayanja",
         host="localhost",
         port="5432"
     )
