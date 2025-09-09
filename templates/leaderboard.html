@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Leaderboard{% endblock %}
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white rounded-xl shadow p-8 mt-8">
+  <h1 class="text-3xl font-bold text-cyan-600 mb-6 text-center">Leaderboard</h1>
+  <table class="w-full text-left border-collapse">
+    <thead>
+      <tr class="bg-cyan-100">
+        <th class="py-2 px-4 rounded-tl">Rank</th>
+        <th class="py-2 px-4">Username</th>
+        <th class="py-2 px-4 rounded-tr">Translations</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr class="border-b">
+        <td class="py-2 px-4">{{ loop.index }}</td>
+        <td class="py-2 px-4">{{ user.username }}</td>
+        <td class="py-2 px-4">{{ user.translation_count }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if not users %}
+    <p class="text-center text-gray-500 mt-6">No translations yet. Be the first to contribute!</p>
+  {% endif %}
+  {% endblock %}

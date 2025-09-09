@@ -1,0 +1,28 @@
+{% extends "skeleton.html" %}
+{% block title %}Sign up{% endblock %}
+{% block content %}
+<div class="flex flex-col lg:flex-row max-w-3xl mx-auto bg-white rounded-xl shadow overflow-hidden">
+  <!-- Aqua side panel for large screens -->
+  <div class="hidden lg:flex lg:w-1/2 bg-cyan-400 items-center justify-center p-8">
+    <div>
+      <h2 class="text-3xl font-bold text-white mb-4">Welcome to Translation Portal!</h2>
+      <p class="text-white text-lg">Join our community and help bridge language gaps. Your translations make a difference!</p>
+    </div>
+  </div>
+  <!-- Signup form -->
+  <div class="w-full lg:w-1/2 p-8 flex items-center justify-center">
+    <div class="w-full">
+      <h1 class="text-2xl font-bold mb-4 text-center">Sign Up</h1>
+      <form method="POST" action="{{ url_for('register') }}">
+        <input type="text" placeholder="Username" name="username" class="w-full border rounded p-2 mb-2">
+        <input type="email" placeholder="Email" name="email" class="w-full border rounded p-2 mb-2">
+        <input type="password" name="password" placeholder="Password" class="w-full border rounded p-2 mb-4">
+        <button class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-lg w-full">Sign Up</button>
+      </form>
+      <div class="mt-4 text-center">
+        <a href="{{ url_for('login') }}" class="text-cyan-600 hover:underline">Have an account? Sign in.</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

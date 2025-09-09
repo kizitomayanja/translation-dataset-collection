@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Translation Portal{% endblock %}</title>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+  <!-- Navbar -->
+  <nav class="bg-white shadow mb-6">
+    <div class="max-w-xl mx-auto px-4">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex space-x-4">
+          <a href="{{ url_for('home') }}" class="text-blue-600 font-bold hover:underline">Home</a>
+          <a href="{{ url_for('about') }}" class="text-gray-700 hover:text-blue-600">About</a>
+          <a href="{{ url_for('contact') }}" class="text-gray-700 hover:text-blue-600">Contact</a>
+          <a href="{{ url_for('translate') }}" class="text-gray-700 hover:text-blue-600">Translate</a>
+          <a href="{{ url_for('leaderboard') }}" class="text-gray-700 hover:text-blue-600">Leaderboard</a>
+        </div>
+        <div class="flex space-x-4">
+          {% if current_user.is_authenticated %}
+            <a href="{{ url_for('profile') }}" class="text-gray-700 hover:text-blue-600">Profile</a>
+            <a href="{{ url_for('logout') }}" class="text-red-600 hover:underline">Logout</a>
+          {% else %}
+            <a href="{{ url_for('login') }}" class="text-blue-600 hover:underline">Sign in</a>
+            <a href="{{ url_for('signup') }}" class="text-green-600 hover:underline">Sign up</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="flex-1 mb-24">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Fixed Footer Progress Bar -->
+  <footer class="fixed bottom-0 left-0 w-full bg-white shadow">
+    <div class="max-w-xl mx-auto px-4 py-3">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <p class="mb-2 sm:mb-0 text-gray-700 text-sm">Completed: {{done}} / {{total}}</p>
+        <div class="w-full sm:w-2/3 bg-gray-200 rounded-full h-6">
+          <div class="bg-green-500 h-6 rounded-full text-white text-sm flex items-center justify-center"
+               style="width: {{percent}}%;">
+            {{percent|round(1)}}%
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
